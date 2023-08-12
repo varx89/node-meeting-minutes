@@ -10,6 +10,7 @@ const URL_WEB = process.env.URL_WEB;
 
 // router.use(express.urlencoded({ extended: false }));
 router.use(cors({ credentials: true, origin: URL_WEB }));
+// router.use(cors());
 
 router.get('/', (req, res) => res.send('Loading...'));
 router.post('/register', handleRegister);
