@@ -1,5 +1,5 @@
 {
-    "name": "meeting-minutes",
+    "name": "node-meeting-minutes",
     "version": "1.0.0",
     "description": "App for connect to react meeting minutes",
     "main": "index.js",
