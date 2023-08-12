@@ -2,7 +2,7 @@
 
 const express = require('express');
 const app = express();
-const dbConnect = require('./connect');
+const dbConnect = require('./helpers/connect');
 const routes = require('./routes/authRoutes');
 const cors = require('cors');
 
@@ -14,8 +14,8 @@ dbConnect(MONGO_URL);
 app.use(express.json());
 
 // app.use('/', routes);
-app.get('/', (req, res) => {
-    res.send('hello matanpizda');
+app.use('/', (req, res) => {
+    res.status(200).send('hello matanpizda');
 });
 
 app.listen(PORT, () => {
