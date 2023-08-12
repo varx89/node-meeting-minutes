@@ -13,7 +13,10 @@ dbConnect(MONGO_URL);
 
 app.use(express.json());
 
-app.use('/', routes);
+// app.use('/', routes);
+app.get('/', (req, res) => {
+    res.status(200).json('hello matanpizda');
+});
 
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
