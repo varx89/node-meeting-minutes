@@ -6,6 +6,7 @@ const projectsSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    sloganUrl: String,
     description: {
         type: String,
         required: true,
@@ -14,10 +15,7 @@ const projectsSchema = new mongoose.Schema({
         type: Date,
         default: () => Date.now(),
     },
-    closeDate: {
-        type: Date,
-        default: () => Date.now(),
-    },
+    closeDate: Date,
     groupsTasks: [groupTasksSchema],
 });
 
