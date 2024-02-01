@@ -7,23 +7,23 @@ const handleRegister = async (req, res) => {
 
         //validate input
         if (!email || email.length <= 8 || email.length >= 32) {
-            return res.json({
+            return res.status(200).json({
                 error: 'Email between 8-16 characters!',
             });
         }
         if (!fullName || fullName.length <= 8 || fullName.length >= 32) {
-            return res.json({
+            return res.status(200).json({
                 error: 'Full Name between 8-16 characters!',
             });
         }
         if (!password || password.length <= 8 || password.length >= 32) {
-            return res.json({
+            return res.status(200).json({
                 error: 'Password between 8-16 characters!',
             });
         }
         //check passwords equality
         if (password !== cPassword) {
-            return res.json({
+            return res.status(200).json({
                 error: 'Passwords are not equal!',
             });
         }
@@ -31,7 +31,7 @@ const handleRegister = async (req, res) => {
         //check email exist
         const emailExist = await User.findOne({ email });
         if (emailExist) {
-            return res.json({
+            return res.status(200).json({
                 error: 'Email is already taken!',
             });
         }
@@ -44,7 +44,9 @@ const handleRegister = async (req, res) => {
             fullName,
             password: hashedPassword,
         });
-        res.json();
+        res.status(200).json({
+            message: 'Succesfully registered!',
+        });
     } catch (error) {
         console.log(error);
     }
