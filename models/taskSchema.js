@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const taskSchema = new mongoose.Schema({
-    id: Number,
     title: {
         type: String,
         required: true,
@@ -22,8 +21,20 @@ const taskSchema = new mongoose.Schema({
         type: Date,
         default: () => Date.now(),
     },
+    groupTasksID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'GroupTasks',
+    },
+    projectID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Project',
+    },
+    userID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    },
 });
 
-const Task = taskSchema;
+const Task = mongoose.model('Task', taskSchema);
 
-module.exports = Task;
+module.exports = Tasks;

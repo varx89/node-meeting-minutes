@@ -6,6 +6,7 @@ const handleListProjects = require('../controllers/projectsController');
 const addProject = require('../controllers/addProjectController');
 const viewProject = require('../controllers/viewProjectController');
 const editProject = require('../controllers/editProjectController');
+const groupTasks = require('../controllers/groupTasksController');
 const path = require('path');
 const multer = require('multer');
 // const dotenv = require('dotenv');
@@ -37,5 +38,6 @@ router.get('/projects', handleListProjects);
 router.put('/addproject', addProject);
 router.get('/project/:id', viewProject);
 router.post('/project/:id', editProject);
+router.get('projectGroup/:id');
 
 module.exports = router;

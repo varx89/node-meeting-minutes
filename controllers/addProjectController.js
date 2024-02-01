@@ -1,14 +1,15 @@
 const jwt = require('jsonwebtoken');
 const jwtSecret = process.env.JWT_SECRET;
 const User = require('../models/usersModel');
+const Project = require('../models/projectsSchema');
 
 const addProject = (req, res) => {
     const { token } = req.cookies;
     const { project, textAreaDesc } = req.body;
 
-    if (!project || project.length <= 8 || project.length > 16) {
+    if (!project || project.length < 4 || project.length > 16) {
         return res.json({
-            error: 'Title between 8-16 characters!',
+            error: 'Title between 4-16 characters!',
         });
     }
     if (
@@ -22,32 +23,39 @@ const addProject = (req, res) => {
     }
     //check if user exists and push
     async function checkUserAndProject(email, projTitle) {
-        const user = await User.findOne({ email: email });
+        const user = await User.findOne({ email: email }).populate('projects');
         if (!user) {
             return res.json({
                 error: 'Invalid data!',
             });
         } else {
-            let project = user.projects.filter(
-                (item) => item.title === projTitle
-            );
-            if (project.length > 0) {
-                return res.json({
-                    error: 'Project already exists!',
-                });
+            const project = await Project.findOne({
+                title: projTitle,
+            });
+
+            if (!project) {
             }
-            if (project.length < 1) {
-                //push project to array of projects in mongo
-                user.projects.push({
-                    title: projTitle,
-                    sloganUrl: projTitle.replaceAll(' ', '-').toLowerCase(),
-                    description: textAreaDesc,
-                });
-                await user.save();
-                return res.json({
-                    success: 'Project Added Sucessfully!',
-                });
-            }
+
+            // let project = user.projects.filter(
+            //     (item) => item.title === projTitle
+            // );
+            // if (project.length > 0) {
+            //     return res.json({
+            //         error: 'Project already exists!',
+            //     });
+            // }
+            // if (project.length < 1) {
+            //     //push project to array of projects in mongo
+            //     user.projects.push({
+            //         title: projTitle,
+            //         sloganUrl: projTitle.replaceAll(' ', '-').toLowerCase(),
+            //         description: textAreaDesc,
+            //     });
+            //     await user.save();
+            //     return res.json({
+            //         success: 'Project Added Sucessfully!',
+            //     });
+            // }
         }
     }
 

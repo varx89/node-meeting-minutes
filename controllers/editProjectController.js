@@ -2,33 +2,34 @@ const jwt = require('jsonwebtoken');
 const jwtSecret = process.env.JWT_SECRET;
 const User = require('../models/usersModel');
 
-const viewProject = (req, res) => {
+const editProject = (req, res) => {
     const { token } = req.cookies;
     const { id } = req.params;
-    const { taskTitle, taskDescription } = req.body;
+    const { taskTitle, taskDescription, taskImage } = req.body;
+    const taskSlogan = taskTitle.replaceAll(' ', '-').toLowerCase();
 
     //check if user exists and push
-    async function checkUserAndProjectSlogan(email, sloganId) {
+    async function checkUserAndProjectId(email, Id) {
         const user = await User.findOne({ email: email });
         if (!user) {
             return res.json({
                 error: 'Invalid data!',
             });
         } else {
-            const project = User.findOneAndUpdate(
-                {
-                    email: email,
-                    'projects.sloganUrl': sloganId,
-                },
-                { $set: { 'projects.$.title': taskTitle } },
-                { new: true }
-            );
-
-            if (project) {
-                return res.json(project);
-            } else {
-                res.status(404).json('Not Found');
-            }
+            user.projects.forEach(async (proj, index) => {
+                if (proj._id.equals(Id)) {
+                    user.projects[index].title = taskTitle;
+                    user.projects[index].description = taskDescription;
+                    user.projects[index].sloganUrl = taskSlogan;
+                    await user.save();
+                }
+            });
+            // await user.save();
+            // if (project) {
+            //     return res.json(project);
+            // } else {
+            //     res.status(404).json('Not Found');
+            // }
         }
     }
 
@@ -36,7 +37,10 @@ const viewProject = (req, res) => {
         jwt.verify(token, jwtSecret, {}, (err, user) => {
             if (err) throw err;
             try {
-                checkUserAndProjectSlogan(user.email, id);
+                checkUserAndProjectId(user.email, id);
+                res.json({
+                    success: 'Project Edited Sucessfully',
+                });
             } catch (error) {
                 console.log(error);
             }
@@ -46,4 +50,4 @@ const viewProject = (req, res) => {
     }
 };
 
-module.exports = viewProject;
+module.exports = editProject;

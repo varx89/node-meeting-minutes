@@ -5,8 +5,8 @@ const User = require('../models/usersModel');
 const handleListProjects = (req, res) => {
     const { token } = req.cookies;
 
-    async function checkUserExists({ paramUser }) {
-        const user = await User.findOne({ paramUser });
+    async function checkUserExists(paramUser) {
+        const user = await User.findOne({ email: paramUser });
         // res.json(user);
         if (!user) {
             return res.json({
@@ -20,7 +20,7 @@ const handleListProjects = (req, res) => {
         jwt.verify(token, jwtSecret, {}, (err, user) => {
             if (err) throw err;
             try {
-                checkUserExists(user.id);
+                checkUserExists(user.email);
             } catch (error) {
                 console.log(error);
             }

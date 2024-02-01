@@ -2,13 +2,13 @@ const jwt = require('jsonwebtoken');
 const jwtSecret = process.env.JWT_SECRET;
 const User = require('../models/usersModel');
 
-const viewProject = (req, res) => {
+const handleListGroups = (req, res) => {
     const { token } = req.cookies;
     const { id } = req.params;
 
-    //check if user exists and push
-    async function checkUserAndProjectSlogan(email, Id) {
-        const user = await User.findOne({ email: email });
+    async function checkUserExists(paramUser, Id) {
+        const user = await User.findOne({ email: paramUser });
+        // res.json(user);
         if (!user) {
             return res.json({
                 error: 'Invalid data!',
@@ -28,7 +28,7 @@ const viewProject = (req, res) => {
         jwt.verify(token, jwtSecret, {}, (err, user) => {
             if (err) throw err;
             try {
-                checkUserAndProjectSlogan(user.email, id);
+                checkUserExists(user.email, id);
             } catch (error) {
                 console.log(error);
             }
@@ -38,4 +38,4 @@ const viewProject = (req, res) => {
     }
 };
 
-module.exports = viewProject;
+module.exports = handleListGroups;

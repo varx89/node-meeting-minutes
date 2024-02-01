@@ -1,14 +1,20 @@
 const mongoose = require('mongoose');
-const taskSchema = require('./taskSchema');
 
 const groupTasksSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
     },
-    tasks: [taskSchema],
+    projectID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Project',
+    },
+    userID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    },
 });
 
-const GroupTask = groupTasksSchema;
+const GroupTasks = mongoose.model('GroupTasks', groupTasksSchema);
 
-module.exports = GroupTask;
+module.exports = GroupTasks;

@@ -6,6 +6,7 @@ const dbConnect = require('./helpers/connect');
 const routes = require('./routes/authRoutes');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
 const PORT = process.env.APP_PORT || 8000;
 const MONGO_URL = process.env.MONGO_URL;
@@ -14,6 +15,7 @@ dbConnect(MONGO_URL);
 
 //middleware
 app.use(express.json());
+app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 

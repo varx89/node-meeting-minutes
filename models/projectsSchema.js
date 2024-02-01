@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const groupTasksSchema = require('./groupTasksSchema');
 
 const projectsSchema = new mongoose.Schema({
     title: {
@@ -16,9 +15,23 @@ const projectsSchema = new mongoose.Schema({
         default: () => Date.now(),
     },
     closeDate: Date,
-    groupsTasks: [groupTasksSchema],
+    userID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+    },
+    // groupsTasks: [
+    //     {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref: 'GroupTasks',
+    //     },
+    // ],
+    // userID: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'User',
+    // },
 });
 
-const Project = projectsSchema;
+const Project = mongoose.model('Project', projectsSchema);
 
 module.exports = Project;

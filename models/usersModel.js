@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 
-const projectSchema = require('./projectsSchema');
-
 const userSchema = new mongoose.Schema({
     email: {
         type: String,
@@ -21,7 +19,12 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: () => Date.now(),
     },
-    projects: [projectSchema],
+    // projects: [
+    //     {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref: 'Project',
+    //     },
+    // ],
 });
 
 const User = mongoose.model('User', userSchema);
