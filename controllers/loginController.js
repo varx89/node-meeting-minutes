@@ -1,4 +1,4 @@
-const User = require('../models/usersModel');
+const User = require('../models/userSchema');
 const { comparePassword } = require('../helpers/auth');
 const jwt = require('jsonwebtoken');
 const jwtSecret = process.env.JWT_SECRET;

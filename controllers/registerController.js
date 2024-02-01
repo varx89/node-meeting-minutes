@@ -1,4 +1,4 @@
-const User = require('../models/usersModel');
+const User = require('../models/userSchema');
 const { hashPassword } = require('../helpers/auth');
 
 const handleRegister = async (req, res) => {

@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const jwtSecret = process.env.JWT_SECRET;
-const User = require('../models/usersModel');
+const User = require('../models/userSchema');
 
 const editProject = (req, res) => {
     const { token } = req.cookies;
